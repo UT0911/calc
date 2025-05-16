@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>4ビット2進数の計算</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    .bit-row {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+    .bit {
+      width: 40px;
+      height: 40px;
+      margin: 5px;
+      font-size: 20px;
+      background-color: #eee;
+      border: 1px solid #aaa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <h1>4桁2進数の加算・減算</h1>
+
+  <div class="bit-row" id="num1">
+    <div class="bit">0</div>
+    <div class="bit">0</div>
+    <div class="bit">0</div>
+    <div class="bit">0</div>
+  </div>
+
+  <div class="bit-row" id="num2">
+    <div class="bit">0</div>
+    <div class="bit">0</div>
+    <div class="bit">0</div>
+    <div class="bit">0</div>
+  </div>
+
+  <div class="result" id="addResult">加算: 0</div>
+  <div class="result" id="subResult">減算: 0</div>
+
+  <script>
+    const updateResults = () => {
+      const getValue = (id) => {
+        return [...document.querySelectorAll(`#${id} .bit`)]
+          .map(b => b.textContent)
+          .join('');
+      };
+
+      const binToDec = bin => parseInt(bin, 2);
+      const decToBin4 = dec => (dec >>> 0).toString(2).padStart(4, '0');
+
+      const bin1 = getValue('num1');
+      const bin2 = getValue('num2');
+      const val1 = binToDec(bin1);
+      const val2 = binToDec(bin2);
+
+      const add = val1 + val2;
+      let sub = val1 - val2;
+
+      // オーバーフロー防止（4ビット符号なしとして扱う）
+      const addBin = (add & 0b1111).toString(2).padStart(4, '0');
+      const subBin = (sub & 0b1111).toString(2).padStart(4, '0');
+
+      document.getElementById('addResult').textContent = `加算: ${add} (${addBin})`;
+      document.getElementById('subResult').textContent = `減算: ${sub} (${subBin})`;
+    };
+
+    const bits = document.querySelectorAll('.bit');
+    bits.forEach(bit => {
+      bit.addEventListener('click', () => {
+        bit.textContent = bit.textContent === '0' ? '1' : '0';
+        updateResults();
+      });
+    });
+
+    updateResults(); // 初期表示
+  </script>
+</body>
+</html>
