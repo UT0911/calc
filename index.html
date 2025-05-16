@@ -3,38 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <title>4ビット2進数の計算</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       font-family: sans-serif;
       text-align: center;
       padding: 20px;
     }
+    h1 {
+      font-size: 1.5em;
+      margin-bottom: 20px;
+    }
     .bit-row {
       display: flex;
       justify-content: center;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
     }
     .bit {
-      width: 40px;
-      height: 40px;
-      margin: 5px;
-      font-size: 20px;
-      background-color: #eee;
-      border: 1px solid #aaa;
+      width: 30px;
+      height: 30px;
+      margin: 10px;
+      font-size: 28px;
+      background-color: #f0f0f0;
+      border: 2px solid #888;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       user-select: none;
+      transition: background-color 0.2s;
+    }
+    .bit:active {
+      background-color: #ccc;
     }
     .result {
-      margin-top: 20px;
-      font-size: 18px;
+      margin-top: 10px;
+      font-size: 20px;
     }
   </style>
 </head>
 <body>
-  <h1>4桁2進数の加算・減算</h1>
+  <h1>加算・減算</h1>
 
   <div class="bit-row" id="num1">
     <div class="bit">0</div>
@@ -72,7 +83,7 @@
       const add = val1 + val2;
       let sub = val1 - val2;
 
-      // オーバーフロー防止（4ビット符号なしとして扱う）
+      // 4ビットの範囲に制限（符号なし）
       const addBin = (add & 0b1111).toString(2).padStart(4, '0');
       const subBin = (sub & 0b1111).toString(2).padStart(4, '0');
 
